@@ -1,0 +1,59 @@
+class Product {
+    int productId;
+    String productName;
+    String category;
+
+    public Product(int id, String name, String category) {
+        this.productId = id;
+        this.productName = name;
+        this.category = category;
+    }
+
+    @Override
+    public String toString() {
+        return productId + " | " + productName + " | Category: " + category;
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Product[] products = {
+            new Product(1, "Laptop", "Electronics"),
+            new Product(2, "Keyboard", "Accessories"),
+            new Product(3, "Mouse", "Accessories"),
+            new Product(4, "Notebook", "Stationery")
+        };
+
+        System.out.println("🔍 Linear Search for 'Mouse':");
+        int index1 = linearSearch(products, "Mouse");
+        System.out.println(index1 != -1 ? products[index1] : "Not found");
+
+        System.out.println("\n🔍 Binary Search for 'Keyboard':");
+        Product[] sortedProducts = {
+            new Product(2, "Keyboard", "Accessories"),
+            new Product(1, "Laptop", "Electronics"),
+            new Product(3, "Mouse", "Accessories"),
+            new Product(4, "Notebook", "Stationery")
+        };
+        int index2 = binarySearch(sortedProducts, "Keyboard", 0, sortedProducts.length - 1);
+        System.out.println(index2 != -1 ? sortedProducts[index2] : "Not found");
+    }
+
+    static int linearSearch(Product[] arr, String name) {
+        for (int i = 0; i < arr.length; i++) {
+            if (arr[i].productName.equalsIgnoreCase(name)) return i;
+        }
+        return -1;
+    }
+
+    static int binarySearch(Product[] arr, String name, int left, int right) {
+        while (left <= right) {
+            int mid = (left + right) / 2;
+            int cmp = arr[mid].productName.compareToIgnoreCase(name);
+            if (cmp == 0) return mid;
+            else if (cmp < 0) left = mid + 1;
+            else right = mid - 1;
+        }
+        return -1;
+    }
+}

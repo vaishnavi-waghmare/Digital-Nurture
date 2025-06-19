@@ -1,0 +1,72 @@
+class Task {
+    int taskId;
+    String taskName;
+    String status;
+    Task next;
+
+    public Task(int id, String name, String status) {
+        this.taskId = id;
+        this.taskName = name;
+        this.status = status;
+        this.next = null;
+    }
+
+    @Override
+    public String toString() {
+        return taskId + " | " + taskName + " | Status: " + status;
+    }
+}
+
+public class Main {
+    static Task head = null;
+
+    static void addTask(Task t) {
+        t.next = head;
+        head = t;
+    }
+
+    static Task searchTask(int id) {
+        Task current = head;
+        while (current != null) {
+            if (current.taskId == id) return current;
+            current = current.next;
+        }
+        return null;
+    }
+
+    static void deleteTask(int id) {
+        Task temp = head, prev = null;
+        if (temp != null && temp.taskId == id) {
+            head = temp.next;
+            return;
+        }
+        while (temp != null && temp.taskId != id) {
+            prev = temp;
+            temp = temp.next;
+        }
+        if (temp != null) prev.next = temp.next;
+    }
+
+    static void traverseTasks() {
+        Task current = head;
+        while (current != null) {
+            System.out.println(current);
+            current = current.next;
+        }
+    }
+
+    public static void main(String[] args) {
+        addTask(new Task(1, "Fix bugs", "Pending"));
+        addTask(new Task(2, "Write report", "In Progress"));
+
+        System.out.println("\nAll Tasks:");
+        traverseTasks();
+
+        System.out.println("\nSearch Task with ID 1:");
+        System.out.println(searchTask(1));
+
+        deleteTask(1);
+        System.out.println("\nAfter Deleting Task ID 1:");
+        traverseTasks();
+    }
+}

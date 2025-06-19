@@ -1,0 +1,66 @@
+import java.util.HashMap;
+import java.util.Map;
+
+class Product {
+    int productId;
+    String productName;
+    int quantity;
+    double price;
+
+    public Product(int id, String name, int qty, double price) {
+        this.productId = id;
+        this.productName = name;
+        this.quantity = qty;
+        this.price = price;
+    }
+
+    @Override
+    public String toString() {
+        return productId + " | " + productName + " | Qty: " + quantity + " | Price: ₹" + price;
+    }
+}
+
+public class Main {
+    static Map<Integer, Product> inventory = new HashMap<>();
+
+    public static void main(String[] args) {
+        // Sample test
+        Product p1 = new Product(1, "Laptop", 10, 55000);
+        Product p2 = new Product(2, "Mouse", 50, 500);
+
+        addProduct(p1);
+        addProduct(p2);
+
+        System.out.println("Inventory after adding products:");
+        printInventory();
+
+        Product updated = new Product(2, "Wireless Mouse", 40, 750);
+        updateProduct(updated);
+
+        System.out.println("\nInventory after updating product 2:");
+        printInventory();
+
+        deleteProduct(1);
+
+        System.out.println("\nInventory after deleting product 1:");
+        printInventory();
+    }
+
+    static void addProduct(Product p) {
+        inventory.put(p.productId, p);
+    }
+
+    static void updateProduct(Product p) {
+        inventory.put(p.productId, p);
+    }
+
+    static void deleteProduct(int id) {
+        inventory.remove(id);
+    }
+
+    static void printInventory() {
+        for (Product p : inventory.values()) {
+            System.out.println(p);
+        }
+    }
+}

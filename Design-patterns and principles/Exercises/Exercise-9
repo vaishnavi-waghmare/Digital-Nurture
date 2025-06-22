@@ -6,11 +6,11 @@ interface Command {
 // Receiver Class
 class Light {
     public void turnOn() {
-        System.out.println("💡 Light is ON");
+        System.out.println(" Light is ON");
     }
 
     public void turnOff() {
-        System.out.println("💡 Light is OFF");
+        System.out.println(" Light is OFF");
     }
 }
 
@@ -49,7 +49,7 @@ class RemoteControl {
 
     public void pressButton() {
         if (command != null) command.execute();
-        else System.out.println("❌ No command set.");
+        else System.out.println(" No command set.");
     }
 }
 

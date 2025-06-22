@@ -1,0 +1,75 @@
+import java.util.ArrayList;
+import java.util.List;
+
+// Observer Interface
+interface Observer {
+    void update(String stockName, double newPrice);
+}
+
+// Subject Interface
+interface Stock {
+    void registerObserver(Observer o);
+    void removeObserver(Observer o);
+    void notifyObservers();
+}
+
+// Concrete Subject
+class StockMarket implements Stock {
+    private List<Observer> observers = new ArrayList<>();
+    private String stockName;
+    private double stockPrice;
+
+    public StockMarket(String stockName, double initialPrice) {
+        this.stockName = stockName;
+        this.stockPrice = initialPrice;
+    }
+
+    public void setPrice(double newPrice) {
+        System.out.println("\n🔔 Price updated for " + stockName + ": ₹" + newPrice);
+        this.stockPrice = newPrice;
+        notifyObservers();
+    }
+
+    public void registerObserver(Observer o) {
+        observers.add(o);
+    }
+
+    public void removeObserver(Observer o) {
+        observers.remove(o);
+    }
+
+    public void notifyObservers() {
+        for (Observer o : observers) {
+            o.update(stockName, stockPrice);
+        }
+    }
+}
+
+// Concrete Observers
+class MobileApp implements Observer {
+    public void update(String stockName, double newPrice) {
+        System.out.println("📱 MobileApp - " + stockName + " is now ₹" + newPrice);
+    }
+}
+
+class WebApp implements Observer {
+    public void update(String stockName, double newPrice) {
+        System.out.println("🖥️ WebApp - " + stockName + " is now ₹" + newPrice);
+    }
+}
+
+// Main class to test Observer Pattern
+public class Main {
+    public static void main(String[] args) {
+        StockMarket tcsStock = new StockMarket("TCS", 3200);
+
+        Observer mobile = new MobileApp();
+        Observer web = new WebApp();
+
+        tcsStock.registerObserver(mobile);
+        tcsStock.registerObserver(web);
+
+        tcsStock.setPrice(3225);
+        tcsStock.setPrice(3190);
+    }
+}

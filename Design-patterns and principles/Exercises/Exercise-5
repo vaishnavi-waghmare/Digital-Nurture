@@ -1,0 +1,63 @@
+// Component Interface
+interface Notifier {
+    void send(String message);
+}
+
+// Concrete Component
+class EmailNotifier implements Notifier {
+    public void send(String message) {
+        System.out.println("📧 Email sent: " + message);
+    }
+}
+
+// Base Decorator
+abstract class NotifierDecorator implements Notifier {
+    protected Notifier wrappee;
+
+    public NotifierDecorator(Notifier notifier) {
+        this.wrappee = notifier;
+    }
+
+    public void send(String message) {
+        wrappee.send(message);
+    }
+}
+
+// Concrete Decorators
+class SMSNotifier extends NotifierDecorator {
+    public SMSNotifier(Notifier notifier) {
+        super(notifier);
+    }
+
+    public void send(String message) {
+        super.send(message);
+        System.out.println("📱 SMS sent: " + message);
+    }
+}
+
+class SlackNotifier extends NotifierDecorator {
+    public SlackNotifier(Notifier notifier) {
+        super(notifier);
+    }
+
+    public void send(String message) {
+        super.send(message);
+        System.out.println("💬 Slack message sent: " + message);
+    }
+}
+
+// Main class to test the Decorator Pattern
+public class Main {
+    public static void main(String[] args) {
+        // Base notifier
+        Notifier notifier = new EmailNotifier();
+
+        // Add SMS
+        notifier = new SMSNotifier(notifier);
+
+        // Add Slack
+        notifier = new SlackNotifier(notifier);
+
+        notifier.send("Server is down!");
+    }
+}

@@ -1,0 +1,37 @@
+// Repository Interface
+interface CustomerRepository {
+    String findCustomerById(String id);
+}
+
+// Concrete Repository
+class CustomerRepositoryImpl implements CustomerRepository {
+    public String findCustomerById(String id) {
+        // Simulate fetching from DB
+        return "Customer{id='" + id + "', name='Vaishnavi'}";
+    }
+}
+
+// Service class (dependent on repository)
+class CustomerService {
+    private CustomerRepository repository;
+
+    // Constructor injection
+    public CustomerService(CustomerRepository repository) {
+        this.repository = repository;
+    }
+
+    public void getCustomerDetails(String id) {
+        String customer = repository.findCustomerById(id);
+        System.out.println("🧾 Retrieved: " + customer);
+    }
+}
+
+// Main class to test Dependency Injection
+public class Main {
+    public static void main(String[] args) {
+        CustomerRepository repo = new CustomerRepositoryImpl();
+        CustomerService service = new CustomerService(repo); // Dependency injected
+
+        service.getCustomerDetails("C123");
+    }
+}

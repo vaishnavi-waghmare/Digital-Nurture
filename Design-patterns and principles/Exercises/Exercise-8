@@ -1,0 +1,59 @@
+// Strategy Interface
+interface PaymentStrategy {
+    void pay(double amount);
+}
+
+// Concrete Strategies
+class CreditCardPayment implements PaymentStrategy {
+    private String cardNumber;
+
+    public CreditCardPayment(String cardNumber) {
+        this.cardNumber = cardNumber;
+    }
+
+    public void pay(double amount) {
+        System.out.println("💳 Paid ₹" + amount + " using Credit Card: " + cardNumber);
+    }
+}
+
+class PayPalPayment implements PaymentStrategy {
+    private String email;
+
+    public PayPalPayment(String email) {
+        this.email = email;
+    }
+
+    public void pay(double amount) {
+        System.out.println("📧 Paid ₹" + amount + " using PayPal account: " + email);
+    }
+}
+
+// Context Class
+class PaymentContext {
+    private PaymentStrategy strategy;
+
+    public void setPaymentStrategy(PaymentStrategy strategy) {
+        this.strategy = strategy;
+    }
+
+    public void payAmount(double amount) {
+        if (strategy == null) {
+            System.out.println("❌ No payment strategy selected.");
+        } else {
+            strategy.pay(amount);
+        }
+    }
+}
+
+// Main class to test Strategy Pattern
+public class Main {
+    public static void main(String[] args) {
+        PaymentContext context = new PaymentContext();
+
+        context.setPaymentStrategy(new CreditCardPayment("1234-5678-9876-5432"));
+        context.payAmount(2500);
+
+        context.setPaymentStrategy(new PayPalPayment("vaish@example.com"));
+        context.payAmount(1400);
+    }
+}

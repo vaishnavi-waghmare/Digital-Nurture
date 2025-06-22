@@ -1,0 +1,55 @@
+// Target interface
+interface PaymentProcessor {
+    void processPayment(double amount);
+}
+
+// Adaptee 1 – Existing third-party gateway with a different method name
+class StripeGateway {
+    public void makeStripePayment(double amount) {
+        System.out.println("Processing payment via Stripe: ₹" + amount);
+    }
+}
+
+// Adaptee 2 – Another third-party gateway
+class RazorpayGateway {
+    public void payViaRazor(double amount) {
+        System.out.println("Processing payment via Razorpay: ₹" + amount);
+    }
+}
+
+// Adapter for Stripe
+class StripeAdapter implements PaymentProcessor {
+    private StripeGateway stripe;
+
+    public StripeAdapter(StripeGateway stripe) {
+        this.stripe = stripe;
+    }
+
+    public void processPayment(double amount) {
+        stripe.makeStripePayment(amount);
+    }
+}
+
+// Adapter for Razorpay
+class RazorpayAdapter implements PaymentProcessor {
+    private RazorpayGateway razor;
+
+    public RazorpayAdapter(RazorpayGateway razor) {
+        this.razor = razor;
+    }
+
+    public void processPayment(double amount) {
+        razor.payViaRazor(amount);
+    }
+}
+
+// Main class to test Adapter Pattern
+public class Main {
+    public static void main(String[] args) {
+        PaymentProcessor stripePayment = new StripeAdapter(new StripeGateway());
+        PaymentProcessor razorPayment = new RazorpayAdapter(new RazorpayGateway());
+
+        stripePayment.processPayment(2500);
+        razorPayment.processPayment(1800);
+    }
+}

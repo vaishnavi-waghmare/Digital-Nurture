@@ -1,0 +1,75 @@
+// Product class
+class Computer {
+    private String cpu;
+    private String ram;
+    private String storage;
+    private boolean hasGraphicsCard;
+
+    // Private constructor
+    private Computer(Builder builder) {
+        this.cpu = builder.cpu;
+        this.ram = builder.ram;
+        this.storage = builder.storage;
+        this.hasGraphicsCard = builder.hasGraphicsCard;
+    }
+
+    @Override
+    public String toString() {
+        return "Computer [CPU: " + cpu + ", RAM: " + ram + ", Storage: " + storage +
+               ", Graphics Card: " + (hasGraphicsCard ? "Yes" : "No") + "]";
+    }
+
+    // Static Builder class
+    public static class Builder {
+        private String cpu;
+        private String ram;
+        private String storage;
+        private boolean hasGraphicsCard;
+
+        public Builder setCPU(String cpu) {
+            this.cpu = cpu;
+            return this;
+        }
+
+        public Builder setRAM(String ram) {
+            this.ram = ram;
+            return this;
+        }
+
+        public Builder setStorage(String storage) {
+            this.storage = storage;
+            return this;
+        }
+
+        public Builder setGraphicsCard(boolean hasGraphicsCard) {
+            this.hasGraphicsCard = hasGraphicsCard;
+            return this;
+        }
+
+        public Computer build() {
+            return new Computer(this);
+        }
+    }
+}
+
+// Main class to test the Builder Pattern
+public class Main {
+    public static void main(String[] args) {
+        Computer gamingPC = new Computer.Builder()
+                .setCPU("Intel i9")
+                .setRAM("32GB")
+                .setStorage("1TB SSD")
+                .setGraphicsCard(true)
+                .build();
+
+        Computer officePC = new Computer.Builder()
+                .setCPU("Intel i5")
+                .setRAM("8GB")
+                .setStorage("512GB SSD")
+                .setGraphicsCard(false)
+                .build();
+
+        System.out.println("Gaming PC:\n" + gamingPC);
+        System.out.println("\nOffice PC:\n" + officePC);
+    }
+}
